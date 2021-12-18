@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tic tac toe game</title>
+    <style>
+       @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+        {{!-- * {
+            margin: 0px;
+            padding: 0px;
+        } --}}
+
+        /*  heading  */
+        .nav h1 {
+            background-color: rgb(203, 233, 226);
+            padding: 1vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 30px;
+            border-radius: 14px;
+            box-shadow: 0px 1px 20px #eab3f1;
+            animation: pulse 2s ease-in-out infinite;
+            margin-top: 2px;
+        }
+
+        /* gameplay box */
+        .gamebox {
+            display: grid;
+            grid-template-rows: repeat(3, 10vw);
+            grid-template-columns: repeat(3, 10vw);
+            margin: 4vw;
+        }
+
+        .gamecontainer {
+            display: flex;
+            justify-content: center;
+
+        }
+
+        #welcome {
+            font-size: 3vw;
+
+        }
+
+        #friend {
+            font-size: 3vw;
+
+        }
+
+
+        #chance {
+            font-size: 3vw;
+
+        }
+
+        .box {
+            border: 2px solid #ff00f7;
+
+        }
+
+        .box {
+            justify-content: center;
+            font-size: 8vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto', sans-serif;
+
+        }
+
+        .box:hover {
+            background-color: rgb(239, 224, 253);
+            cursor: pointer;
+        }
+
+        .upper {
+            border-top: 0px;
+        }
+
+        .bottom {
+            border-bottom: 0;
+        }
+
+        .left {
+            border-left: 0;
+        }
+
+        .right {
+            border-right: 0;
+        }
+
+        /* information box */
+        .info {
+            margin: 3vw;
+        }
+
+        #replay {
+            color: blueviolet;
+            font-size: 2vw;
+            margin: 0.5vw;
+            padding: 0.3vw;
+            border: 1px solid wheat;
+            border-radius: 4px;
+            background-color: rgb(205, 235, 212);
+
+        }
+
+        #replay:hover {
+            background-color: rgb(225, 240, 185);
+        }
+
+        #replay:active {
+            background-color: rgb(229, 205, 194);
+        }
+        .xwin{
+            border: 4px solid rgb(247, 0, 255);
+            width: 100px;
+            height: 18px;
+            border-radius: 15px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            margin: 5px;
+            color: blue;
+            font-size: 22px;
+        }
+        .owin{
+            border: 4px solid rgb(247, 0, 255);
+            width: 100px;
+            height: 18px;
+            border-radius: 15px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            margin: 5px;
+            color: rgb(0, 255, 25);
+            font-size: 22px;
+        }
+        .wincount{
+            display: flex;
+
+        }
+
+
+        @keyframes pulse {
+            0% {
+                color: rgb(255, 0, 0);
+            }
+
+            10% {
+                color: rgb(255, 123, 0);
+            }
+
+            20% {
+                color: rgb(255, 230, 0);
+            }
+
+            30% {
+                color: rgb(123, 255, 0);
+            }
+
+            40% {
+                color: rgb(0, 255, 64);
+            }
+
+            50% {
+                color: rgb(0, 255, 157);
+            }
+
+            60% {
+                color: rgb(0, 195, 255);
+            }
+
+            70% {
+                color: rgb(0, 81, 255);
+            }
+
+            80% {
+                color: rgb(132, 0, 255);
+            }
+
+            90% {
+                color: rgb(195, 0, 255);
+            }
+
+            100% {
+                color: rgb(255, 0, 157);
+            }
+        }
+
+        @media (max-width: 500px) {
+            #welcome {
+                display: none;
+            }
+
+            .gamecontainer {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #friend {
+                font-size: 9vw;
+
+            }
+
+
+            #chance {
+                font-size: 9vw;
+
+            }
+
+            .info {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #replay {
+                font-size: 9vw;
+
+            }
+
+            .box {
+                font-size: 20vw;
+            }
+
+            .gamebox {
+                display: grid;
+                grid-template-rows: repeat(3, 30vw);
+                grid-template-columns: repeat(3, 30vw);
+                margin: 10vw;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    {{>header}}
+    <div class="nav">
+        <h1 class="text-yellow-200">
+            Tic Tac Toe game
+        </h1>
+    </div>
+    <div class="gamecontainer">
+        <div class="gamebox">
+            <div class="box upper left" id="a"><span class="boxtext"></span></div>
+            <div class="box upper" id="b"><span class="boxtext"></span></div>
+            <div class="box upper right" id="c"><span class="boxtext"></span></div>
+            <div class="box left" id="d"><span class="boxtext"></span></div>
+            <div class="box" id="e"><span class="boxtext"></span></div>
+            <div class="box right" id="f"><span class="boxtext"></span></div>
+            <div class="box bottom left" id="g"><span class="boxtext"></span></div>
+            <div class="box bottom" id="h"><span class="boxtext"></span></div>
+            <div class="box bottom right" id="i"><span class="boxtext"></span></div>
+        </div>
+        <div class="info">
+            <div id="welcome">welcome to Tic Tac Toe game</div>
+            <div id="friend">Play with your friend</div>
+            <div id="chance">X chance </div>
+            <button id="replay">
+                Replay
+            </button>
+            <div class="wincount">
+                <div class="xwin">X win :&nbsp;<span id="xwincount">0</span> </div>
+                <div class="owin">O Win :&nbsp;<span id="owincount">0</span> </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const music = new Audio("https://www.fesliyanstudios.com/play-mp3/4");
+        const music2 = new Audio("https://www.fesliyanstudios.com/play-mp3/4387");
+        const music3 = new Audio("https://www.fesliyanstudios.com/play-mp3/7011");
+        document.getElementById("chance").style.color = "blue";
+        let turn = "X";
+        let count = 1;
+        let countowin = 0;
+        let countxwin = 0;
+        let decide = () => {
+            if (count % 2 == 0) {
+                turn = 'X';
+                document.getElementById("chance").innerText = "X chance"
+                count++
+            }
+            else if (count % 2 == 1) {
+                turn = 'O';
+                document.getElementById("chance").innerText = "O chance"
+                count++
+            }
+            else {
+                console.log("turn error");
+            }
+        }
+
+        let aa = document.getElementById("a");
+        let ab = document.getElementById("b");
+        let ac = document.getElementById("c");
+        let ad = document.getElementById("d");
+        let ae = document.getElementById("e");
+        let af = document.getElementById("f");
+        let ag = document.getElementById("g");
+        let ah = document.getElementById("h");
+        let ai = document.getElementById("i");
+
+        let cheakwins = () => {
+
+            if (aa.innerText == ab.innerText && ab.innerText == ac.innerText && aa.innerText == 'X') {
+                document.getElementById("chance").innerText = "X win";
+                music2.play();
+                countxwin++;
+                csscolor(aa, ab, ac);
+            }
+            else if (aa.innerText == ab.innerText && ab.innerText == ac.innerText && aa.innerText == 'O') {
+                document.getElementById("chance").innerText = "O win";
+                music2.play();
+                countowin++;
+                csscolor(aa, ab, ac);
+            }
+            else if (aa.innerText == ad.innerText && ad.innerText == ag.innerText && aa.innerText == 'X') {
+                document.getElementById("chance").innerText = "X win";
+                music2.play();
+                countxwin++;
+                csscolor(aa, ad, ag);
+            }
+            else if (aa.innerText == ad.innerText && ad.innerText == ag.innerText && aa.innerText == 'O') {
+                document.getElementById("chance").innerText = "O win";
+                music2.play();
+                countowin++;
+                csscolor(aa, ad, ag);
+            }
+            else if (aa.innerText == ae.innerText && ae.innerText == ai.innerText && aa.innerText == 'X') {
+                document.getElementById("chance").innerText = "X win";
+                music2.play();
+                countxwin++;
+                csscolor(aa, ae, ai);
+            }
+            else if (aa.innerText == ae.innerText && ae.innerText == ai.innerText && aa.innerText == 'O') {
+                document.getElementById("chance").innerText = "O win";
+                music2.play();
+                countowin++;
+                csscolor(aa, ae, ai);
+            }
+            else if (ab.innerText == ae.innerText && ae.innerText == ah.innerText && ah.innerText == 'X') {
+                document.getElementById("chance").innerText = "X win";
+                music2.play();
+                countxwin++;
+                csscolor(ab, ae, ah);
+            }
+            else if (ab.innerText == ae.innerText && ae.innerText == ah.innerText && ah.innerText == 'O') {
+                document.getElementById("chance").innerText = "O win";
+                music2.play();
+                countowin++;
+                csscolor(ab, ae, ah);
+            }
+            else if (ac.innerText == af.innerText && af.innerText == ai.innerText && ac.innerText == 'X') {
+                document.getElementById("chance").innerText = "X win";
+                music2.play();
+                countxwin++;
+                csscolor(ac, af, ai);
+            }
+            else if (ac.innerText == af.innerText && af.innerText == ai.innerText && ac.innerText == 'O') {
+                document.getElementById("chance").innerText = "O win";
+                music2.play();
+                countowin++;
+                csscolor(ac, af, ai);
+            }
+            else if (ad.innerText == ae.innerText && ae.innerText == af.innerText && ad.innerText == 'X') {
+                document.getElementById("chance").innerText = "X win";
+                music2.play();
+                countxwin++;
+                csscolor(ad, ae, af);
+            }
+            else if (ad.innerText == ae.innerText && ae.innerText == af.innerText && ad.innerText == 'O') {
+                document.getElementById("chance").innerText = "O win";
+                music2.play();
+                countowin++;
+                csscolor(ad, ae, af);
+            }
+            else if (ag.innerText == ah.innerText && ah.innerText == ai.innerText && ag.innerText == 'X') {
+                document.getElementById("chance").innerText = "X win";
+                music2.play();
+                countxwin++;
+                csscolor(ag, ah, ai);
+            }
+            else if (ag.innerText == ah.innerText && ah.innerText == ai.innerText && ag.innerText == 'O') {
+                document.getElementById("chance").innerText = "O win";
+                music2.play();
+                countowin++;
+                csscolor(ag, ah, ai);
+            }
+            else if (ac.innerText == ae.innerText && ae.innerText == ag.innerText && ac.innerText == 'X') {
+                document.getElementById("chance").innerText = "X win";
+                music2.play();
+                countxwin++;
+                csscolor(ac, ae, ag);
+            }
+            else if (ac.innerText == ae.innerText && ae.innerText == ag.innerText && ac.innerText == 'O') {
+                document.getElementById("chance").innerText = "O win";
+                music2.play();
+                countowin++;
+                csscolor(ac, ae, ag);
+            }
+            else {
+                if (aa.innerText !== '' && ab.innerText !== '' && ac.innerText !== '' && ad.innerText !== '' && ae.innerText !== '' && af.innerText !== '' && ag.innerText !== '' && ah.innerText !== '' && ai.innerText !== '') {
+                    document.getElementById("chance").innerText = "DRAW";
+                    document.getElementById("replay").style.backgroundColor = "red";
+                    document.getElementById("replay").style.color = "green";
+                    music3.play();
+                }
+                else {
+                    console.log("something wrong");
+                }
+            }
+        };
+
+        let array = ["a", "b", "c", "d", "e", "f", "g", "h", "i"];
+        function csscolor(aaa, bbb, ccc) {
+            aaa.style.color = "red";
+            bbb.style.color = "red";
+            ccc.style.color = "red";
+            document.getElementById("replay").style.backgroundColor = "red";
+            document.getElementById("replay").style.color = "green";
+            document.getElementById("chance").style.color = "red";
+            document.getElementById("xwincount").innerText = countxwin;
+            document.getElementById("owincount").innerText = countowin;
+
+        }
+
+
+        array.forEach(function (value) {
+            document.getElementById(value).addEventListener("click", () => {
+                let text = document.getElementById(value);
+
+                if (text.innerText == "") {
+                    text.innerText = turn;
+                    if (text.innerText == "X") {
+                        text.style.color = "blue";
+                        document.getElementById("chance").style.color = "rgb(0, 255, 21)";
+
+                    }
+                    else {
+                        text.style.color = "rgb(0, 255, 21)";
+                        document.getElementById("chance").style.color = "blue";
+
+                    }
+                    decide();
+                    music.play();
+                    cheakwins();
+                }
+                else {
+                    console.log("type error");
+                }
+            });
+        })
+        array.forEach(function (value) {
+            document.getElementById("replay").addEventListener("click", () => {
+                let text = document.getElementById(value);
+                if (text.innerText = 1) {
+                    text.innerText = '';
+                    decide();
+                    music.play();
+                    let chanceee = document.getElementById("chance");
+                    document.getElementById("replay").style.backgroundColor = "blueviolet";
+                    document.getElementById("replay").style.backgroundColor = "rgb(205, 235, 212)";
+                    if (chanceee.innerText == "X chance") {
+                        document.getElementById("chance").style.color = "blue";
+                    }
+                    else if (chanceee.innerText == "O chance") {
+                        document.getElementById("chance").style.color = "rgb(0, 255, 21)";
+                    }
+                    else {
+                        console.log("something error");
+                    }
+                }
+                else {
+                    console.log("type error");
+                }
+            });
+        })
+
+    </script>
+</body>
+
+</html>

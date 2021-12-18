@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+        integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <title>weather cloud</title>
+    <style>
+        * {
+            font-family: 'Quicksand', sans-serif;
+
+        }
+
+        .box {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            border: 2px solid rgb(150, 150, 241);
+            height: 400px;
+            width: 300px;
+            border-radius: 8px;
+            box-shadow: 0 0.2rem 3rem rgba(0, 0, 0, 0.6);
+            background-color: rgb(182, 179, 231);
+            transform: translate3d(0, 0, 0);
+            overflow: hidden;
+        }
+
+        .body2 {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            height: 90vh;
+            width: 100vw;
+            background-color: #eee9d9;
+        }
+
+        .wave {
+            opacity: 0.3;
+            position: absolute;
+            top: 120%;
+            left: 50%;
+            margin-left: -25rem;
+            margin-top: -18rem;
+            height: 50rem;
+            width: 50rem;
+            border-radius: 40%;
+            animation: drift 3000ms infinite linear;
+            background: white;
+            z-index: -3;
+            transform-origin: 50% 48%;
+        }
+
+        #wave2 {
+            animation: drift 7000ms infinite linear;
+            opacity: 0.1;
+            z-index: -1 !important;
+        }
+
+        #wave3 {
+            animation: drift 5000ms infinite linear;
+            z-index: -2 !important;
+            opacity: 0.2;
+        }
+
+        @keyframes drift {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .weathericon {
+            font-size: 4rem;
+            display: inline-block;
+            margin: 2.8rem;
+            animation: iccc 5000ms infinite;
+        }
+
+        @keyframes iccc {
+            0% {
+                transform: scale(0.8);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(0.8);
+            }
+        }
+
+        .infobox {
+            margin-top: 2rem;
+
+        }
+
+        #text {
+            margin-top: 0px;
+            margin-bottom: 10px;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 0.2rem 3rem rgba(0, 0, 0, 0.6);
+            transform: translate3d(0, 0, 0);
+            border-radius: 10px;
+            width: 13rem;
+            border: 2px solid rgb(231, 136, 219);
+        }
+
+        #submitbtn {
+            padding: 5px 16px;
+            margin-bottom: 10px;
+            background-color: rgb(230, 228, 228);
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0px 2px 4px red;
+        }
+
+        #submitbtn:hover {
+            box-shadow: 0px 2px 4px blue;
+        }
+
+        #submitbtn a {
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+    </style>
+</head>
+
+<body>
+    {{>header}}
+    <div class="body2">
+    <div class="typetext">
+        <h4>
+            Enter your city
+        </h4>
+        <div class="textshow">
+            <input type="text" id="text" placeholder="Your city">
+        </div>
+        <button id="submitbtn">
+            <a href="#">Search</a>
+        </button>
+    </div>
+    <div class="box">
+        <div class="wavesbox">
+            <div id="wave1" class="wave"></div>
+            <div id="wave2" class="wave"></div>
+            <div id="wave3" class="wave"></div>
+        </div>
+        <div class="info">
+            <div class="weathericon" id="tempstatus">
+                <i class="fas fa-sun" style="color: #f07d47;"></i>
+            </div>
+            <div class="infobox">
+                <h2 class="location"><i class="fas fa-street-view"></i> <span id="locationcity"> location </span> <span
+                        id="country"> country</span> </h2>
+                <p id="date"> Wed | oct 23 | 23:22 am </p>
+                <h1 class="temp"> <span id="tempreturecity">temp </span>&deg;c </h1>
+                <h5 class="tempminmax"> Min <span id="tempmin"> tempmin </span>&deg;c | Max <span id="tempmax"> tempmax
+                    </span> &deg;c </h5>
+            </div>
+        </div>
+
+
+    </div>
+    </div>
+    <script>
+        const currentdate = document.getElementById("date");
+        let weatherstatus = document.getElementById("tempstatus");
+
+        let cityname = document.getElementById("text");
+        let citynameshow = document.getElementById("textshow");
+        let locationcity = document.getElementById('locationcity');
+        let country = document.getElementById('country');
+        let submitbtn = document.getElementById('submitbtn');
+        let tempmin = document.getElementById('tempmin');
+        let tempmax = document.getElementById('tempmax');
+        let tempreturecity = document.getElementById('tempreturecity');
+
+
+        const getinfo = async (event) => {
+            event.preventDefault();
+            let cityval = cityname.value;
+            let url = `http://api.openweathermap.org/data/2.5/weather?q=${cityval}&units=metric&appid=c960187f224042a5e30a09de0ba328a8`;
+            const response = await fetch(url);
+            data = await response.json();
+            const arrdata = [data]
+            locationcity.innerHTML = arrdata[0].name;
+            country.innerHTML = arrdata[0].sys.country;
+            tempmax.innerHTML = arrdata[0].main.temp_max;
+            tempmin.innerHTML = arrdata[0].main.temp_min;
+            tempreturecity.innerHTML = arrdata[0].main.temp;
+            const status = arrdata[0].weather[0].main;
+           
+            if (status=="Rain") {
+                weatherstatus.innerHTML = "<i class='fas  fa-rain' style='color: rgb(247, 127, 14);'></i>";
+            }
+
+            else if (status=="Clear") {
+                weatherstatus.innerHTML = "<i class='fas  fa-sun' style='color: rgb(247, 127, 14);'></i>";
+            }
+
+            else if (status=="Haze") {
+                weatherstatus.innerHTML = "<i class='fas  fa-cloud-sun' style='color: rgb(247, 127, 14);'></i>";
+            }
+            else if (status=="Clouds") {
+                weatherstatus.innerHTML = "<i class='fas  fa-cloud' style='color: rgb(247, 127, 14);'></i>";
+            }
+           
+            else {
+                weatherstatus.innerHTML = "<i class='fas  fa-sun' style='color: rgb(247, 127, 14);'></i>";
+            }
+           
+            console.log(status);
+
+        }
+
+        submitbtn.addEventListener('click', getinfo);
+
+
+        const getcurrentday = () => {
+            let currenttime = new Date();
+            var month = new Array(12);
+            month[0] = "Jan";
+            month[1] = "Feb";
+            month[2] = "Mar";
+            month[3] = "Apr";
+            month[4] = "May";
+            month[5] = "June";
+            month[6] = "July";
+            month[7] = "Aug";
+            month[8] = "Sep";
+            month[9] = "Oct";
+            month[10] = "Nov";
+            month[11] = "Dec";
+            var weekday = new Array(7);
+            weekday[0] = "Sun";
+            weekday[1] = "Mon";
+            weekday[2] = "Tue";
+            weekday[3] = "Wed";
+            weekday[4] = "Thur";
+            weekday[5] = "Fri";
+            weekday[6] = "Sat";
+            var hours = currenttime.getHours();
+            var minutes = currenttime.getMinutes();
+            var day = currenttime.getDate();
+            let period = "am";
+            if (hours >= 12) {
+                period = "pm";
+            }
+            if (hours > 12) {
+                hours = hours - 12;
+            }
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+            return weekday[currenttime.getDay()] + " | " + month[currenttime.getMonth()] + " "
+                + day + " | " + hours + ":" + minutes + " " + period
+        };
+        currentdate.innerHTML = getcurrentday();
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Form</title>
+    <style>
+        *{
+            text-align: center;
+        }
+        body {
+            color: rgb(40, 2, 249);
+            background-color: rgb(138, 198, 238);
+            font-size: 21px;
+        }
+
+        .btn {
+            color: rgb(245, 114, 6);
+            background-color: rgb(238, 238, 90);
+            border: none;
+            border: 1px solid green;
+            text-decoration: none;
+            border-radius: 3px;
+        }
+
+        #asd {
+            font-size: 20px;
+        }
+
+        .btn:hover {
+            background-color: rgb(231, 182, 142);
+            cursor: pointer;
+            border: 2px solid rgb(173, 88, 88);
+            color: blue;
+            border-radius: 1px;
+        }
+
+        .btn:active {
+            background-color: rgb(106, 233, 174);
+            color: rgb(178, 235, 187);
+        }
+    </style>
+</head>
+
+<body>
+    {{>header}}
+    <h2>School form</h2>
+    <form action="backend.php">
+        <div> Name: <input type="text" name="My name " placeholder="Enter your name" id="name"
+                onfocus="focousfunction(this)"> </div> <br>
+        <div> class : <input type="text" name="My class " placeholder="Enter your class" id="class"
+                onfocus="focousfunction(this)"> </div> <br>
+        <div> roll &nbsp; : <input type="text" name="my roll" placeholder="Enter your roll" id="roll" oninput="inputfunction()"> </div> <br>
+        <div> age &nbsp; : <input type="text" name="my age" placeholder="Enter your age" id="age"> </div> <br>
+        <div>
+            Gender : Male <input type="radio" name=" my gender">
+            female <input type="radio" name=" my gender">
+            other <input type="radio" name=" my gender">
+
+        </div> <br>
+        <div>
+            Date : <input type="date" name="date">
+        </div> <br>
+        <div id="rockstar">
+            <input type="submit" name="submit now">
+        </div>
+
+    </form>
+    
+    <h3>Read more</h3>
+    <a href="https://www.facebook.com/Amitelectriclakhisarai" target="_blank" class="btn">
+        Facebook</a>
+    &nbsp; &nbsp; <a href="https://google.com"><button id="asd" class="btn"> Google </button> </a>
+    <script>
+        function focousfunction(element) {
+            element.style.backgroundColor = "rgb(178, 235, 187)";
+            element.style.borderColor = "rgb(240, 106, 229)";
+
+        }
+        document.getElementById("roll").onfocus();
+        function inputfunction() { 
+        //   var x = document.getElementById("roll").value;
+        //   document.getElementById("forinput").innerHTML = x;
+        document.getElementById("roll").style.backgroundColor = "blue";
+        }
+
+    </script>
+</body>
+
+</html>
